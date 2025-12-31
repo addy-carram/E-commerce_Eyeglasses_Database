@@ -1,0 +1,9 @@
+CREATE TABLE Frame_Type (
+    id_frame_type INT PRIMARY KEY IDENTITY(1,1),
+    type_name VARCHAR(30) NOT NULL UNIQUE
+);
+
+INSERT INTO Frame_Type (type_name) VALUES 
+('full-rim'),
+('semi-rimless'),
+('rimless');
