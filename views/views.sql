@@ -135,3 +135,35 @@ JOIN Product P ON O.id_product = P.id_product
 JOIN Product_Type PT ON P.id_product_type = PT.id_product_type
 WHERE O.id_order_status IN (3, 4) -- ready/completed
 GROUP BY PT.type_name;
+
+
+CREATE VIEW Products.vw_Eyeglasses_Catalog AS
+SELECT 
+    P.id_product,
+    P.producer AS Brand,
+    P.model_name AS Model,
+	frame AS Frame,
+    CLT.type_name AS Tip_de_eyeglass,
+	CLT.description AS Description,
+	 is_custom AS Customizat,
+    CL.price AS Pret_Cutie,
+    P.stock_quantity AS Stoc_Cutii
+FROM Eyeglasses CL
+JOIN Product P ON CL.id_product = P.id_product
+JOIN Eyeglasses_Type CLT ON CL.id_eyeglasses_type = CLT.id_eyeglasses_type;
+
+
+CREATE VIEW HR.vw_Vanzari_Pe_Categorii AS
+SELECT 
+    PT.type_name AS Categorie,
+    COUNT(DISTINCT O.id_order) AS Nr_Comenzi,
+    COUNT(DISTINCT O.id_patient) AS Nr_Clienti_Unici,
+    SUM(O.total_amount) AS Vanzari_Totale,
+    AVG(O.total_amount) AS Valoare_Medie_Comanda,
+    MIN(O.total_amount) AS Comanda_Minima,
+    MAX(O.total_amount) AS Comanda_Maxima
+FROM Order_Table O
+JOIN Product P ON O.id_product = P.id_product
+JOIN Product_Type PT ON P.id_product_type = PT.id_product_type
+WHERE O.id_order_status IN (3, 4) -- ready/completed
+GROUP BY PT.type_name;
