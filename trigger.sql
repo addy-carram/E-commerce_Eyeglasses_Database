@@ -55,32 +55,3 @@ BEGIN
     RAISERROR('it's not allowed to update,delete', 16, 1);
 END
 GO
-
-INSERT INTO Payment_Status(status_name)
-VALUES ('Value10');
-
-
-select * from Payment_Status
-
-go
-
----history page 
-CREATE TRIGGER trg_set_updated_at_product
-ON Product
-AFTER UPDATE,DELETE ,INSERT
-AS
-BEGIN
-    UPDATE history
-    SET updated_at = GETDATE()
-    WHERE id IN (SELECT id FROM inserted);
-END;
-
-CREATE TABLE history (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    tabela VARCHAR(50),
-    operatie VARCHAR(20),
-    id_inregistrare INT,
-    data_actiune DATETIME DEFAULT GETDATE(),
-    detalii TEXT,
-    data_hash VARCHAR(255)
-);
